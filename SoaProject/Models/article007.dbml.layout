@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="article007">
+  <DataContextMoniker Name="/article007DataContext" />
+  <nestedChildShapes>
+    <classShape Id="1610f22f-8834-4bee-8087-10ec42217bc3" absoluteBounds="3.375, 1.5, 2, 1.9631982421875">
+      <DataClassMoniker Name="/article007DataContext/ArticleMaster" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0b9b7ee2-b3eb-409e-9282-000757b98f5b" absoluteBounds="3.39, 1.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ed9d0aa3-89d0-41c1-8da0-5eb4d4beebb4" absoluteBounds="7.5, 1.125, 2, 1.9631982421875">
+      <DataClassMoniker Name="/article007DataContext/AuthorMaster" />
+      <nestedChildShapes>
+        <elementListCompartment Id="63717ff8-a7bf-4631-80cb-fa9702cbdde5" absoluteBounds="7.515, 1.585, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(7.5 : 2.29409912109375); (5.375 : 2.29409912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/article007DataContext/AuthorMaster/AuthorMaster_ArticleMaster" />
+      <nodes>
+        <classShapeMoniker Id="ed9d0aa3-89d0-41c1-8da0-5eb4d4beebb4" />
+        <classShapeMoniker Id="1610f22f-8834-4bee-8087-10ec42217bc3" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
