@@ -26,7 +26,7 @@ namespace SoaProject
                 routeTemplate: "Retrive/{url}",
                 defaults: new { controller = "UploadNew" }
             );
-
+          
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

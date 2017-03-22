@@ -11,4 +11,8 @@ namespace SoaProject.Models
     public partial class ArticleMaster
     {
     }
+    [Serializable]
+    [DataContract(IsReference =true)]
+    public partial class AuthorMaster
+    {}
 }
