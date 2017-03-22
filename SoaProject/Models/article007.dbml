@@ -13,7 +13,7 @@
   </Table>
   <Table Name="dbo.AuthorMaster" Member="AuthorMasters">
     <Type Name="AuthorMaster">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="uname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="fname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="lname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />

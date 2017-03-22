@@ -237,6 +237,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\UploadNewController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -252,6 +253,7 @@
     <Compile Include="Models\ArticleMaster.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoginMaster.cs" />
+    <Compile Include="Models\RegisterMaster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
