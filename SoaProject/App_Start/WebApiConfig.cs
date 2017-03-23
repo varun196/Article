@@ -6,6 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 
 namespace SoaProject
 {
@@ -20,20 +21,13 @@ namespace SoaProject
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
-            config.Routes.MapHttpRoute(
-                name: "Retrive",
-                routeTemplate: "Retrive/{url}",
-                defaults: new { controller = "UploadNew" }
-            );
-
+            
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            JsonMediaTypeFormatter jf = config.Formatters.JsonFormatter;
-            jf.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
     }
 }

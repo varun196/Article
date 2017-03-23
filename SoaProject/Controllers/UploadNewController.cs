@@ -6,14 +6,19 @@ using System.Text;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SoaProject.Controllers
 {
     public class UploadNewController : ApiController
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        //UploadArticle and return md5
+        [HttpPost]
         [Route("Upload")]
-        public string upload([FromBody] ArticleMaster newArticle)
+        public string PostArticle([FromBody] ArticleMaster newArticle)
         {
             //Create hash , return as url
             using (MD5 md5Hash = MD5.Create())
@@ -40,23 +45,84 @@ namespace SoaProject.Controllers
             }
             return newArticle.url;
         }
-       
-        public Dictionary<string,string> Get(string url)
+        //Return Article and author info necessary
+        
+        [HttpGet]
+        [Route("Retrive/Articles/{url}")]
+            public Dictionary<string,string> GetArticles(string url)
+            {
+                Dictionary<string, string> li = new Dictionary<string, string>();
+                //fetch article via url
+                ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
+                         where x.url == url
+                         select x).SingleOrDefault();
+                //Fetch Author Info
+                AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
+                                       where x.Id == q.author_id
+                                       select x).SingleOrDefault();
+
+
+                //Add to dictioary
+                li.Add("author_id",q.author_id.ToString());
+                li.Add("title",q.title.ToString());
+                li.Add("text",q.text.ToString());
+                li.Add("upload_date",q.uploaded_date.ToString());
+                li.Add("uname", author.uname);
+                li.Add("fname", author.fname);
+                li.Add("lname", author.lname);
+                li.Add("mail", author.mail);
+                return li;
+             }
+          
+        [Route("Retrive/Article/{url}")]
+        public ArticleMaster GetArticle(string url)
         {
+            List<ArticleMaster> li = new List<ArticleMaster>();
             //fetch article via url
-             ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
-                     where x.url == url
-                     select x).SingleOrDefault();
+            ArticleMaster q = fetchAM(url);
+            ArticleMaster am = new ArticleMaster();
+            am.copy(q);
+            /*
+            am.Id = q.Id;
+            am.author_id = q.author_id;
+            am.text = q.text;
+            am.title = q.title;
+            am.uploaded_date = q.uploaded_date;
+            am.url = q.url;
+            */
+            return am;
+        }
+
+        public ArticleMaster fetchAM(string url)
+        {
+            ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
+                               where x.url == url
+                               select x).SingleOrDefault();
+            if (q == null)
+            {
+                throw new Exception();
+            }
+            return q;
+        }
+
+        [Route("Retrive/User/{uname}")]
+        public Dictionary<string, string> GetAuthor(string uname)
+        {
             Dictionary<string, string> li = new Dictionary<string, string>();
-
-
-            li.Add("author_id",q.author_id.ToString());
-            li.Add("title",q.title.ToString());
-            li.Add("text",q.text.ToString());
-            li.Add("upload_date",q.uploaded_date.ToString());
             
+            //Fetch Author Info
+            AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
+                                   where x.uname == uname
+                                   select x).SingleOrDefault();
+
+            //Add to dictioary
+            li.Add("uname", author.uname);
+            li.Add("fname", author.fname);
+            li.Add("lname", author.lname);
+            li.Add("mail", author.mail);
             return li;
-         }
+        }
+
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
@@ -77,5 +143,6 @@ namespace SoaProject.Controllers
             // Return the hexadecimal string.
             return sBuilder.ToString();
         }
+        
     }
 }
