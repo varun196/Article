@@ -6,9 +6,7 @@ using System.Text;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+
 
 namespace SoaProject.Controllers
 {
@@ -46,34 +44,34 @@ namespace SoaProject.Controllers
             return newArticle.url;
         }
         //Return Article and author info necessary
-        
-        [HttpGet]
-        [Route("Retrive/Articles/{url}")]
-            public Dictionary<string,string> GetArticles(string url)
-            {
-                Dictionary<string, string> li = new Dictionary<string, string>();
-                //fetch article via url
-                ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
-                         where x.url == url
-                         select x).SingleOrDefault();
-                //Fetch Author Info
-                AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
-                                       where x.Id == q.author_id
-                                       select x).SingleOrDefault();
+        /*   
+           [HttpGet]
+                [Route("Retrive/Articles/{url}")]
+               public Dictionary<string,string> GetArticles(string url)
+               {
+                   Dictionary<string, string> li = new Dictionary<string, string>();
+                   //fetch article via url
+                   ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
+                            where x.url == url
+                            select x).SingleOrDefault();
+                   //Fetch Author Info
+                   AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
+                                          where x.Id == q.author_id
+                                          select x).SingleOrDefault();
 
 
-                //Add to dictioary
-                li.Add("author_id",q.author_id.ToString());
-                li.Add("title",q.title.ToString());
-                li.Add("text",q.text.ToString());
-                li.Add("upload_date",q.uploaded_date.ToString());
-                li.Add("uname", author.uname);
-                li.Add("fname", author.fname);
-                li.Add("lname", author.lname);
-                li.Add("mail", author.mail);
-                return li;
-             }
-          
+                   //Add to dictioary
+                   li.Add("author_id",q.author_id.ToString());
+                   li.Add("title",q.title.ToString());
+                   li.Add("text",q.text.ToString());
+                   li.Add("upload_date",q.uploaded_date.ToString());
+                   li.Add("uname", author.uname);
+                   li.Add("fname", author.fname);
+                   li.Add("lname", author.lname);
+                   li.Add("mail", author.mail);
+                   return li;
+                }
+         */
         [Route("Retrive/Article/{url}")]
         public ArticleMaster GetArticle(string url)
         {
@@ -82,18 +80,10 @@ namespace SoaProject.Controllers
             ArticleMaster q = fetchAM(url);
             ArticleMaster am = new ArticleMaster();
             am.copy(q);
-            /*
-            am.Id = q.Id;
-            am.author_id = q.author_id;
-            am.text = q.text;
-            am.title = q.title;
-            am.uploaded_date = q.uploaded_date;
-            am.url = q.url;
-            */
             return am;
         }
 
-        public ArticleMaster fetchAM(string url)
+        private ArticleMaster fetchAM(string url)
         {
             ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
                                where x.url == url
@@ -105,8 +95,8 @@ namespace SoaProject.Controllers
             return q;
         }
 
-        [Route("Retrive/User/{uname}")]
-        public Dictionary<string, string> GetAuthor(string uname)
+        [Route("Retrive/Users/{uname}")]
+        public Dictionary<string, string> GetAuthors(string uname)
         {
             Dictionary<string, string> li = new Dictionary<string, string>();
             
@@ -123,6 +113,19 @@ namespace SoaProject.Controllers
             return li;
         }
 
+        [Route("Retrive/User/{uname}")]
+        public AuthorMaster GetAuthor(string uname)
+        {
+            Dictionary<string, string> li = new Dictionary<string, string>();
+
+            //Fetch Author Info
+            AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
+                                   where x.uname == uname
+                                   select x).SingleOrDefault();
+
+            return author;
+        }
+        
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
 

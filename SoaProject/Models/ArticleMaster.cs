@@ -20,8 +20,8 @@ namespace SoaProject.Models
             this.url = q.url;
           }
     }
-    [Serializable]
-    [DataContract(IsReference =true)]
+    //[Serializable]
+    //[DataContract(IsReference =true)]
     public partial class AuthorMaster
     {}
 }
