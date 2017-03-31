@@ -6,11 +6,11 @@ using System.Text;
 using System.Linq;
 using System;
 using System.Collections.Generic;
-
+using Newtonsoft.Json;
 
 namespace SoaProject.Controllers
 {
-    public class UploadNewController : ApiController
+    public class ArticleController : ApiController
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         
@@ -68,18 +68,24 @@ namespace SoaProject.Controllers
             return q;
         }
         
-        //RetriveAuthor
-        [Route("Retrive/User/{uname}")]
-        public AuthorMaster GetAuthor(string mail)
+       // Get all articles uploaded by author
+        [Route("Retrive/ArticlesBy/{id}")]
+        public IEnumerable<ArticleReturn> getAllArticlesBy(int id)
         {
-            //Fetch Author Info
-            AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
-                                   where x.mail == mail
-                                   select x).SingleOrDefault();
+            var articles = from x in dc.GetTable<ArticleMaster>()
+                           where x.author_id == id
+                           select x;
 
-            return author;
-        }
+            List<ArticleReturn> lar = new List<ArticleReturn>();
+            
+            foreach (var x in articles)
+            {
+                lar.Add(new ArticleReturn() { Id = x.Id, author_id = x.author_id, title = x.title, uploaded_date = x.uploaded_date, url = x.url });
+            }
+            return lar;
         
+        }
+
         //The Md5 method
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
