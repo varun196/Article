@@ -30,9 +30,14 @@ namespace SoaProject
             );
 
 
+            //Use json as default return
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-            //Circular Referencing
-            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+            //Circular Referencing Solution
+            // config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+            //ExceptionFilter {NOT WORKING PRESENTLY    }
+           // GlobalConfiguration.Configuration.Filters.Add(new SoaProject.Helpers.GlobalExceptionFilterAttribute());
         }
     }
 }

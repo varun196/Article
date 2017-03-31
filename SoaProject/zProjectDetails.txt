@@ -1,6 +1,6 @@
 ﻿Ctrl+m+h to make a region hide able.  , ctrl+m+u to remove hiding 
 
-The service Endpoints are detailed below :
+The service Endpo s are detailed below :
 
 1. Register Author :
 	Route : Register
@@ -51,5 +51,16 @@ The service Endpoints are detailed below :
 
 	extra :
 		1.	Client is responsible to maintain author info once author logs in. {id , name reqd to disp with article}
-			If not , client can probe author info
+			If not , client can probe author info.
 
+5.	Retrive All articles by an author
+	route : retrive/articlesby/{id}
+	bosy : 
+		-na-
+	return : 
+		    id	,	author_id  ,	author_uname	,	author_fname ,   author_lname  ,	title  ,	datetime?	,	url 
+	extra:
+		-NA-
+
+------
+Used Exception filter , security
