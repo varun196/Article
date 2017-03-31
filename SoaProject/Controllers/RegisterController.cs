@@ -31,9 +31,7 @@ namespace SoaProject.Controllers
                   }
                   else
                       return false;
-              
-          
-            }
+              }
             catch (Exception e)
             {
                 throw e;

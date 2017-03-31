@@ -22,4 +22,10 @@
       <Association Name="AuthorMaster_ArticleMaster" Member="AuthorMaster" ThisKey="author_id" OtherKey="Id" Type="AuthorMaster" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.RanNum" Member="RanNums">
+    <Type Name="RanNum">
+      <Column Name="mail" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nonce" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>
