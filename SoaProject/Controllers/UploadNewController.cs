@@ -13,6 +13,7 @@ namespace SoaProject.Controllers
     public class UploadNewController : ApiController
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        
         //UploadArticle and return md5
         [HttpPost]
         [Route("Upload")]
@@ -38,40 +39,12 @@ namespace SoaProject.Controllers
                 }
                 newArticle.url = GetMd5Hash(md5Hash, newArticle.Id.ToString());
 
-                dc.ArticleMasters.InsertOnSubmit(newArticle);
                 dc.SubmitChanges();
             }
             return newArticle.url;
         }
-        //Return Article and author info necessary
-        /*   
-           [HttpGet]
-                [Route("Retrive/Articles/{url}")]
-               public Dictionary<string,string> GetArticles(string url)
-               {
-                   Dictionary<string, string> li = new Dictionary<string, string>();
-                   //fetch article via url
-                   ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
-                            where x.url == url
-                            select x).SingleOrDefault();
-                   //Fetch Author Info
-                   AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
-                                          where x.Id == q.author_id
-                                          select x).SingleOrDefault();
-
-
-                   //Add to dictioary
-                   li.Add("author_id",q.author_id.ToString());
-                   li.Add("title",q.title.ToString());
-                   li.Add("text",q.text.ToString());
-                   li.Add("upload_date",q.uploaded_date.ToString());
-                   li.Add("uname", author.uname);
-                   li.Add("fname", author.fname);
-                   li.Add("lname", author.lname);
-                   li.Add("mail", author.mail);
-                   return li;
-                }
-         */
+        
+        //Retrive Article
         [Route("Retrive/Article/{url}")]
         public ArticleMaster GetArticle(string url)
         {
@@ -82,7 +55,7 @@ namespace SoaProject.Controllers
             am.copy(q);
             return am;
         }
-
+        //Linq Query 
         private ArticleMaster fetchAM(string url)
         {
             ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
@@ -94,38 +67,20 @@ namespace SoaProject.Controllers
             }
             return q;
         }
-
-        [Route("Retrive/Users/{uname}")]
-        public Dictionary<string, string> GetAuthors(string uname)
-        {
-            Dictionary<string, string> li = new Dictionary<string, string>();
-            
-            //Fetch Author Info
-            AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
-                                   where x.uname == uname
-                                   select x).SingleOrDefault();
-
-            //Add to dictioary
-            li.Add("uname", author.uname);
-            li.Add("fname", author.fname);
-            li.Add("lname", author.lname);
-            li.Add("mail", author.mail);
-            return li;
-        }
-
+        
+        //RetriveAuthor
         [Route("Retrive/User/{uname}")]
-        public AuthorMaster GetAuthor(string uname)
+        public AuthorMaster GetAuthor(string mail)
         {
-            Dictionary<string, string> li = new Dictionary<string, string>();
-
             //Fetch Author Info
             AuthorMaster author = (from x in dc.GetTable<AuthorMaster>()
-                                   where x.uname == uname
+                                   where x.mail == mail
                                    select x).SingleOrDefault();
 
             return author;
         }
         
+        //The Md5 method
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
