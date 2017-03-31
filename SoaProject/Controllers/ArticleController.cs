@@ -6,14 +6,18 @@ using System.Text;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace SoaProject.Controllers
 {
-    public class UploadNewController : ApiController
+    public class ArticleController : ApiController
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        
+        //UploadArticle and return md5
+        [HttpPost]
         [Route("Upload")]
-        public string upload([FromBody] ArticleMaster newArticle)
+        public string PostArticle([FromBody] ArticleMaster newArticle)
         {
             //Create hash , return as url
             using (MD5 md5Hash = MD5.Create())
@@ -35,28 +39,54 @@ namespace SoaProject.Controllers
                 }
                 newArticle.url = GetMd5Hash(md5Hash, newArticle.Id.ToString());
 
-                dc.ArticleMasters.InsertOnSubmit(newArticle);
                 dc.SubmitChanges();
             }
             return newArticle.url;
         }
-       
-        public Dictionary<string,string> Get(string url)
+        
+        //Retrive Article
+        [Route("Retrive/Article/{url}")]
+        public ArticleMaster GetArticle(string url)
         {
+            List<ArticleMaster> li = new List<ArticleMaster>();
             //fetch article via url
-             ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
-                     where x.url == url
-                     select x).SingleOrDefault();
-            Dictionary<string, string> li = new Dictionary<string, string>();
+            ArticleMaster q = fetchAM(url);
+            ArticleMaster am = new ArticleMaster();
+            am.copy(q);
+            return am;
+        }
+        //Linq Query 
+        private ArticleMaster fetchAM(string url)
+        {
+            ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
+                               where x.url == url
+                               select x).SingleOrDefault();
+            if (q == null)
+            {
+                throw new Exception();
+            }
+            return q;
+        }
+        
+       // Get all articles uploaded by author
+        [Route("Retrive/ArticlesBy/{id}")]
+        public IEnumerable<ArticleReturn> getAllArticlesBy(int id)
+        {
+            var articles = from x in dc.GetTable<ArticleMaster>()
+                           where x.author_id == id
+                           select x;
 
-
-            li.Add("author_id",q.author_id.ToString());
-            li.Add("title",q.title.ToString());
-            li.Add("text",q.text.ToString());
-            li.Add("upload_date",q.uploaded_date.ToString());
+            List<ArticleReturn> lar = new List<ArticleReturn>();
             
-            return li;
-         }
+            foreach (var x in articles)
+            {
+                lar.Add(new ArticleReturn() { Id = x.Id, author_id = x.author_id, title = x.title, uploaded_date = x.uploaded_date, url = x.url });
+            }
+            return lar;
+        
+        }
+
+        //The Md5 method
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
@@ -77,5 +107,6 @@ namespace SoaProject.Controllers
             // Return the hexadecimal string.
             return sBuilder.ToString();
         }
+        
     }
 }

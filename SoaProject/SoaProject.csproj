@@ -235,10 +235,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
-    <Compile Include="Controllers\UploadNewController.cs" />
+    <Compile Include="Controllers\ArticleController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -251,6 +252,7 @@
       <DependentUpon>article007.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\ArticleMaster.cs" />
+    <Compile Include="Models\ArticleReturn.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoginMaster.cs" />
     <Compile Include="Models\RegisterMaster.cs" />
@@ -295,6 +297,7 @@
       <LastGenOutput>article007.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="zProjectDetails.txt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

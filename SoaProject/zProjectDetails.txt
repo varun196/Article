@@ -1,0 +1,55 @@
+﻿Ctrl+m+h to make a region hide able.  , ctrl+m+u to remove hiding 
+
+The service Endpoints are detailed below :
+
+1. Register Author :
+	Route : Register
+	Body :
+		 mail	,	uname	,	fname	,	pass	,	lname
+
+	Return : 
+		True/False
+
+	Extra instrs : 
+		1. Mail Should be unique
+	->	2. Password goes as md5 
+
+2. Login Author :
+	
+	route : login
+	body : 
+		mail	,	pass
+
+	return :
+	->	id , fname
+
+	extra :
+		1.	client is responsible to store author id and provide it appropriately.
+	->	2.	server may send random number , client generates hash , appends nonce to it, generates hash ahain, and sends to server.	server computes md5 on similar basis : append the nonce to it's md5 and compare.
+		
+
+3.	Upload New Article 
+
+	route : Upload
+	body : 
+		  author_id  , title    , uploaded_date    , text	 , url  	
+
+	return :
+	->	md5 - url
+
+	extra :
+		1.	Url Always goes as "" {Empty} , server returns the url
+			
+4.	Retrive Article
+	
+	route : Retrive/Article/{url}
+	body : 
+		  -NA- 	
+
+	return :
+		 author_id  , title    , uploaded_date    , text	 , url  	
+
+	extra :
+		1.	Client is responsible to maintain author info once author logs in. {id , name reqd to disp with article}
+			If not , client can probe author info
+

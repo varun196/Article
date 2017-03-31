@@ -30,12 +30,12 @@ namespace SoaProject.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertArticleMaster(ArticleMaster instance);
-    partial void UpdateArticleMaster(ArticleMaster instance);
-    partial void DeleteArticleMaster(ArticleMaster instance);
     partial void InsertAuthorMaster(AuthorMaster instance);
     partial void UpdateAuthorMaster(AuthorMaster instance);
     partial void DeleteAuthorMaster(AuthorMaster instance);
+    partial void InsertArticleMaster(ArticleMaster instance);
+    partial void UpdateArticleMaster(ArticleMaster instance);
+    partial void DeleteArticleMaster(ArticleMaster instance);
     #endregion
 		
 		public article007DataContext() : 
@@ -68,6 +68,14 @@ namespace SoaProject.Models
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<AuthorMaster> AuthorMasters
+		{
+			get
+			{
+				return this.GetTable<AuthorMaster>();
+			}
+		}
+		
 		public System.Data.Linq.Table<ArticleMaster> ArticleMasters
 		{
 			get
@@ -75,13 +83,215 @@ namespace SoaProject.Models
 				return this.GetTable<ArticleMaster>();
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AuthorMaster")]
+	public partial class AuthorMaster : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		public System.Data.Linq.Table<AuthorMaster> AuthorMasters
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _uname;
+		
+		private string _fname;
+		
+		private string _lname;
+		
+		private string _mail;
+		
+		private string _pass;
+		
+		private EntitySet<ArticleMaster> _ArticleMasters;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnunameChanging(string value);
+    partial void OnunameChanged();
+    partial void OnfnameChanging(string value);
+    partial void OnfnameChanged();
+    partial void OnlnameChanging(string value);
+    partial void OnlnameChanged();
+    partial void OnmailChanging(string value);
+    partial void OnmailChanged();
+    partial void OnpassChanging(string value);
+    partial void OnpassChanged();
+    #endregion
+		
+		public AuthorMaster()
+		{
+			this._ArticleMasters = new EntitySet<ArticleMaster>(new Action<ArticleMaster>(this.attach_ArticleMasters), new Action<ArticleMaster>(this.detach_ArticleMasters));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
 		{
 			get
 			{
-				return this.GetTable<AuthorMaster>();
+				return this._Id;
 			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_uname", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string uname
+		{
+			get
+			{
+				return this._uname;
+			}
+			set
+			{
+				if ((this._uname != value))
+				{
+					this.OnunameChanging(value);
+					this.SendPropertyChanging();
+					this._uname = value;
+					this.SendPropertyChanged("uname");
+					this.OnunameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fname", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string fname
+		{
+			get
+			{
+				return this._fname;
+			}
+			set
+			{
+				if ((this._fname != value))
+				{
+					this.OnfnameChanging(value);
+					this.SendPropertyChanging();
+					this._fname = value;
+					this.SendPropertyChanged("fname");
+					this.OnfnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lname", DbType="VarChar(50)")]
+		public string lname
+		{
+			get
+			{
+				return this._lname;
+			}
+			set
+			{
+				if ((this._lname != value))
+				{
+					this.OnlnameChanging(value);
+					this.SendPropertyChanging();
+					this._lname = value;
+					this.SendPropertyChanged("lname");
+					this.OnlnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mail", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string mail
+		{
+			get
+			{
+				return this._mail;
+			}
+			set
+			{
+				if ((this._mail != value))
+				{
+					this.OnmailChanging(value);
+					this.SendPropertyChanging();
+					this._mail = value;
+					this.SendPropertyChanged("mail");
+					this.OnmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pass", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string pass
+		{
+			get
+			{
+				return this._pass;
+			}
+			set
+			{
+				if ((this._pass != value))
+				{
+					this.OnpassChanging(value);
+					this.SendPropertyChanging();
+					this._pass = value;
+					this.SendPropertyChanged("pass");
+					this.OnpassChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AuthorMaster_ArticleMaster", Storage="_ArticleMasters", ThisKey="Id", OtherKey="author_id")]
+		public EntitySet<ArticleMaster> ArticleMasters
+		{
+			get
+			{
+				return this._ArticleMasters;
+			}
+			set
+			{
+				this._ArticleMasters.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ArticleMasters(ArticleMaster entity)
+		{
+			this.SendPropertyChanging();
+			entity.AuthorMaster = this;
+		}
+		
+		private void detach_ArticleMasters(ArticleMaster entity)
+		{
+			this.SendPropertyChanging();
+			entity.AuthorMaster = null;
 		}
 	}
 	
@@ -305,216 +515,6 @@ namespace SoaProject.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AuthorMaster")]
-	public partial class AuthorMaster : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _uname;
-		
-		private string _fname;
-		
-		private string _lname;
-		
-		private string _mail;
-		
-		private string _pass;
-		
-		private EntitySet<ArticleMaster> _ArticleMasters;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnunameChanging(string value);
-    partial void OnunameChanged();
-    partial void OnfnameChanging(string value);
-    partial void OnfnameChanged();
-    partial void OnlnameChanging(string value);
-    partial void OnlnameChanged();
-    partial void OnmailChanging(string value);
-    partial void OnmailChanged();
-    partial void OnpassChanging(string value);
-    partial void OnpassChanged();
-    #endregion
-		
-		public AuthorMaster()
-		{
-			this._ArticleMasters = new EntitySet<ArticleMaster>(new Action<ArticleMaster>(this.attach_ArticleMasters), new Action<ArticleMaster>(this.detach_ArticleMasters));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_uname", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string uname
-		{
-			get
-			{
-				return this._uname;
-			}
-			set
-			{
-				if ((this._uname != value))
-				{
-					this.OnunameChanging(value);
-					this.SendPropertyChanging();
-					this._uname = value;
-					this.SendPropertyChanged("uname");
-					this.OnunameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fname", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string fname
-		{
-			get
-			{
-				return this._fname;
-			}
-			set
-			{
-				if ((this._fname != value))
-				{
-					this.OnfnameChanging(value);
-					this.SendPropertyChanging();
-					this._fname = value;
-					this.SendPropertyChanged("fname");
-					this.OnfnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lname", DbType="VarChar(50)")]
-		public string lname
-		{
-			get
-			{
-				return this._lname;
-			}
-			set
-			{
-				if ((this._lname != value))
-				{
-					this.OnlnameChanging(value);
-					this.SendPropertyChanging();
-					this._lname = value;
-					this.SendPropertyChanged("lname");
-					this.OnlnameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mail", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string mail
-		{
-			get
-			{
-				return this._mail;
-			}
-			set
-			{
-				if ((this._mail != value))
-				{
-					this.OnmailChanging(value);
-					this.SendPropertyChanging();
-					this._mail = value;
-					this.SendPropertyChanged("mail");
-					this.OnmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pass", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
-		public string pass
-		{
-			get
-			{
-				return this._pass;
-			}
-			set
-			{
-				if ((this._pass != value))
-				{
-					this.OnpassChanging(value);
-					this.SendPropertyChanging();
-					this._pass = value;
-					this.SendPropertyChanged("pass");
-					this.OnpassChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AuthorMaster_ArticleMaster", Storage="_ArticleMasters", ThisKey="Id", OtherKey="author_id")]
-		public EntitySet<ArticleMaster> ArticleMasters
-		{
-			get
-			{
-				return this._ArticleMasters;
-			}
-			set
-			{
-				this._ArticleMasters.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ArticleMasters(ArticleMaster entity)
-		{
-			this.SendPropertyChanging();
-			entity.AuthorMaster = this;
-		}
-		
-		private void detach_ArticleMasters(ArticleMaster entity)
-		{
-			this.SendPropertyChanging();
-			entity.AuthorMaster = null;
 		}
 	}
 }
