@@ -10,12 +10,7 @@ namespace SoaProject.Controllers
 
         [Route("Login")]
         [HttpPost]
-        public bool login([FromBody]LoginMaster l)
-        {
-            bool b = getAuthentication(l);
-            return b;
-        } 
-        public bool getAuthentication(LoginMaster l)
+        public int login([FromBody]LoginMaster l)
         {
             try
             {
@@ -25,18 +20,18 @@ namespace SoaProject.Controllers
                          select b).SingleOrDefault();
                 if (a != null)
                 {
-                    return true;
+                    return a.Id;
                 }
                 else
                 {
-                    return false;
+                    return -1;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
-            
-        }
+        } 
+
     }
 }
