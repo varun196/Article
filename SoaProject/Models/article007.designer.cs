@@ -36,6 +36,9 @@ namespace SoaProject.Models
     partial void InsertArticleMaster(ArticleMaster instance);
     partial void UpdateArticleMaster(ArticleMaster instance);
     partial void DeleteArticleMaster(ArticleMaster instance);
+    partial void InsertRanNum(RanNum instance);
+    partial void UpdateRanNum(RanNum instance);
+    partial void DeleteRanNum(RanNum instance);
     #endregion
 		
 		public article007DataContext() : 
@@ -81,6 +84,14 @@ namespace SoaProject.Models
 			get
 			{
 				return this.GetTable<ArticleMaster>();
+			}
+		}
+		
+		public System.Data.Linq.Table<RanNum> RanNums
+		{
+			get
+			{
+				return this.GetTable<RanNum>();
 			}
 		}
 	}
@@ -493,6 +504,92 @@ namespace SoaProject.Models
 						this._author_id = default(int);
 					}
 					this.SendPropertyChanged("AuthorMaster");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.RanNum")]
+	public partial class RanNum : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _mail;
+		
+		private int _nonce;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnmailChanging(string value);
+    partial void OnmailChanged();
+    partial void OnnonceChanging(int value);
+    partial void OnnonceChanged();
+    #endregion
+		
+		public RanNum()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mail", DbType="VarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string mail
+		{
+			get
+			{
+				return this._mail;
+			}
+			set
+			{
+				if ((this._mail != value))
+				{
+					this.OnmailChanging(value);
+					this.SendPropertyChanging();
+					this._mail = value;
+					this.SendPropertyChanged("mail");
+					this.OnmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_nonce", DbType="Int NOT NULL")]
+		public int nonce
+		{
+			get
+			{
+				return this._nonce;
+			}
+			set
+			{
+				if ((this._nonce != value))
+				{
+					this.OnnonceChanging(value);
+					this.SendPropertyChanging();
+					this._nonce = value;
+					this.SendPropertyChanged("nonce");
+					this.OnnonceChanged();
 				}
 			}
 		}
