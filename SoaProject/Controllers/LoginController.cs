@@ -11,7 +11,7 @@ namespace SoaProject.Controllers
     public class LoginController : ApiController
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-
+/*
         [Route("Login")]
         [HttpPost]
         public int login([FromBody]LoginMaster l)
@@ -42,11 +42,36 @@ namespace SoaProject.Controllers
             }
             catch (Exception e)
             {
+               throw e;
+            }
+        }
+  */      [Route("Article/Login")]
+        [HttpGet]
+        public int Getloginonly([FromUri]LoginMaster l)
+        {
+
+            try
+            {
+                var usr = (from b in dc.GetTable<AuthorMaster>()
+                           where b.mail == l.mail
+                           where b.pass == l.pass
+                           select b).SingleOrDefault();
+
+                if (usr != null)
+                {
+                    return usr.Id;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
                 throw e;
             }
-        } 
-        
-        [Route("GetNonce")]
+        }
+ /*       [Route("GetNonce")]
         [HttpGet]
         public int GetNonce(string remail)
         {
@@ -75,7 +100,7 @@ namespace SoaProject.Controllers
                 throw e;
             }
         }
-        static string GetMd5Hash(MD5 md5Hash, string input)
+   */     static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
             // Convert the input string to a byte array and compute the hash.

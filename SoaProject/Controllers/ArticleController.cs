@@ -15,9 +15,9 @@ namespace SoaProject.Controllers
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         
         //UploadArticle and return md5
-        [HttpPost]
+        [HttpGet]
         [Route("Upload")]
-        public string PostArticle([FromBody] ArticleMaster newArticle)
+        public string GetUploadArticle([FromUri] ArticleMaster newArticle)
         {
             //Create hash , return as url
             using (MD5 md5Hash = MD5.Create())
@@ -86,7 +86,13 @@ namespace SoaProject.Controllers
             return lar;
         
         }
-
+        [Route("GetAllArticles")]
+        public Object GetAllArticles()
+        {
+            var articles = (from a in dc.GetTable<ArticleMaster>()
+                            select new { a.Id, a.author_id, a.uploaded_date, a.title, a.text, a.url });
+            return articles;
+        }   
         //The Md5 method
         static string GetMd5Hash(MD5 md5Hash, string input)
         {

@@ -9,8 +9,8 @@ namespace SoaProject.Controllers
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         [Route("Register")]
-        [HttpPost]
-        public bool register([FromBody]RegisterMaster a)
+        [HttpGet]
+        public bool GetRegister([FromUri]RegisterMaster a)
         {
             try
             {
