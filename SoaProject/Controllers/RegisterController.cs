@@ -37,6 +37,15 @@ namespace SoaProject.Controllers
                 throw e;
             }
         }
+        //get userinfo by author id
+        [Route("GetUserInfo/{id}")]
+        public Object Getuserinfo(int id)
+        {
+            var userinfo = from user in dc.GetTable<AuthorMaster>()
+                           where user.Id == id
+                           select new{user.Id,user.fname,user.lname,user.uname,user.mail,user.pass };
+            return userinfo;
+        }
         bool checkForMail(string mail)
         {
             try

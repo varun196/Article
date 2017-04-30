@@ -71,36 +71,37 @@ namespace SoaProject.Controllers
                 throw e;
             }
         }
- /*       [Route("GetNonce")]
-        [HttpGet]
-        public int GetNonce(string remail)
-        {
-            try
-            {
-                var q = (from a in dc.GetTable<AuthorMaster>()
-                         where a.mail == remail
-                         select a).SingleOrDefault();
-                if(q != null)
-                {
-                    Random rnd = new Random();
-                    int num = rnd.Next(1000, 1000000);
-                    RanNum rn = new RanNum()
-                    {
-                        mail = remail,
-                        nonce = num
-                    };
-                    dc.RanNums.InsertOnSubmit(rn);
-                    dc.SubmitChanges();
-                    return num;    
-                }
-                return -1;
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
-        }
-   */     static string GetMd5Hash(MD5 md5Hash, string input)
+        /*       [Route("GetNonce")]
+               [HttpGet]
+               public int GetNonce(string remail)
+               {
+                   try
+                   {
+                       var q = (from a in dc.GetTable<AuthorMaster>()
+                                where a.mail == remail
+                                select a).SingleOrDefault();
+                       if(q != null)
+                       {
+                           Random rnd = new Random();
+                           int num = rnd.Next(1000, 1000000);
+                           RanNum rn = new RanNum()
+                           {
+                               mail = remail,
+                               nonce = num
+                           };
+                           dc.RanNums.InsertOnSubmit(rn);
+                           dc.SubmitChanges();
+                           return num;    
+                       }
+                       return -1;
+                   }
+                   catch(Exception e)
+                   {
+                       throw e;
+                   }
+               }
+          */
+        static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
             // Convert the input string to a byte array and compute the hash.

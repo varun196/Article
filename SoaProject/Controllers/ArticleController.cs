@@ -15,15 +15,15 @@ namespace SoaProject.Controllers
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         
         //UploadArticle and return md5
-        [HttpGet]
+        [HttpPost]
         [Route("Upload")]
-        public string GetUploadArticle([FromUri] ArticleMaster newArticle)
+        public string GetUploadArticle([FromBody] ArticleMaster newArticle)
         {
             //Create hash , return as url
             using (MD5 md5Hash = MD5.Create())
             {
                 newArticle.url = GetMd5Hash(md5Hash, (newArticle.text + newArticle.title + newArticle.author_id.ToString()));
-
+                newArticle.uploaded_date = DateTime.Now;
                 //Upload to db
                
                 try
@@ -70,10 +70,14 @@ namespace SoaProject.Controllers
         [Route("Retrive/ArticlesBy/{id}")]
         public IEnumerable<ArticleReturn> getAllArticlesBy(int id)
         {
+
             var articles = from x in dc.GetTable<ArticleMaster>()
                            where x.author_id == id
                            select x;
-
+            if(articles==null)
+            {
+                return null;
+            }
             List<ArticleReturn> lar = new List<ArticleReturn>();
             
             foreach (var x in articles)
