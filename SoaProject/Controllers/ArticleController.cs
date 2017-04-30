@@ -44,7 +44,15 @@ namespace SoaProject.Controllers
             }
             return newArticle.url;
         }
-        
+       //ByKalpesh
+       [Route("GetAllArticles")]
+        public Object GetAllArticles()
+        {
+            var articles = (from a in dc.GetTable<ArticleMaster>()
+                            select new { a.Id , a.author_id , a.uploaded_date , a.title ,a.text ,a.url});
+            return articles;
+        }
+        //Retrive Article
         [Route("Retrive/Article/{url}")]
         public ArticleReturn GetArticle(string url)
         {

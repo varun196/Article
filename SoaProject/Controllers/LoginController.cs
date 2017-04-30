@@ -44,8 +44,34 @@ namespace SoaProject.Controllers
             {
                 throw e;
             }
-        } 
-        
+        }
+        [Route("Article/Login")]
+        [HttpPost]
+        public int loginonly([FromBody]LoginMaster l)
+        {
+            
+            try
+            {
+                var usr = (from b in dc.GetTable<AuthorMaster>()
+                           where b.mail == l.mail
+                           where b.pass == l.pass
+                           select b).SingleOrDefault();
+
+                if (usr != null)
+                {
+                    return usr.Id;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         [Route("GetNonce")]
         [HttpGet]
         public int GetNonce(string remail)
