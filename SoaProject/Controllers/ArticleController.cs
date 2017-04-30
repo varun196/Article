@@ -25,10 +25,11 @@ namespace SoaProject.Controllers
                 newArticle.url = GetMd5Hash(md5Hash, (newArticle.text + newArticle.title + newArticle.author_id.ToString()));
 
                 //Upload to db
-                dc.ArticleMasters.InsertOnSubmit(newArticle);
-                dc.SubmitChanges();
+               
                 try
                 {
+                    dc.ArticleMasters.InsertOnSubmit(newArticle);
+                    dc.SubmitChanges();
                     newArticle = (from x in dc.GetTable<ArticleMaster>()
                                   where x == newArticle
                                   select x).Single();
@@ -43,8 +44,8 @@ namespace SoaProject.Controllers
             }
             return newArticle.url;
         }
-        
-        [Route("GetAllArticles")]
+       //ByKalpesh
+       [Route("GetAllArticles")]
         public Object GetAllArticles()
         {
             var articles = (from a in dc.GetTable<ArticleMaster>()
@@ -53,29 +54,27 @@ namespace SoaProject.Controllers
         }
         //Retrive Article
         [Route("Retrive/Article/{url}")]
-        public ArticleMaster GetArticle(string url)
+        public ArticleReturn GetArticle(string url)
         {
-            List<ArticleMaster> li = new List<ArticleMaster>();
-            //fetch article via url
-            ArticleMaster q = fetchAM(url);
-            ArticleMaster am = new ArticleMaster();
-            am.copy(q);
-            return am;
-        }
-        //Linq Query 
-        private ArticleMaster fetchAM(string url)
-        {
-            ArticleMaster q = (from x in dc.GetTable<ArticleMaster>()
-                               where x.url == url
-                               select x).SingleOrDefault();
-            if (q == null)
-            {
-                throw new Exception();
-            }
-            return q;
+            ArticleMaster articles = (from x in dc.GetTable<ArticleMaster>()
+                           where x.url == url
+                           select x).SingleOrDefault();
+
+          
+           AuthorMaster authorIs = (from auth in dc.GetTable<AuthorMaster>()
+                                    where auth.Id == articles.author_id
+                                    select auth).SingleOrDefault();     
+
+            ArticleReturn ar = new ArticleReturn() {  Id = articles.Id, author_id = articles.author_id,
+                                                      author_fname = authorIs.fname, author_lname = authorIs.lname,
+                                                      title = articles.title, uploaded_date = articles.uploaded_date,
+                                                      url = articles.url, author_uname = authorIs.uname,
+                                                      text = articles.text};
+
+            return ar;
         }
         
-       // Get all articles uploaded by author
+        // Get all articles uploaded by author
         [Route("Retrive/ArticlesBy/{id}")]
         public IEnumerable<ArticleReturn> getAllArticlesBy(int id)
         {
@@ -87,7 +86,10 @@ namespace SoaProject.Controllers
             
             foreach (var x in articles)
             {
-                lar.Add(new ArticleReturn() { Id = x.Id, author_id = x.author_id, title = x.title, uploaded_date = x.uploaded_date, url = x.url });
+                AuthorMaster authorIs = (from auth in dc.GetTable<AuthorMaster>()
+                               where auth.Id == x.author_id
+                               select auth).SingleOrDefault();
+                lar.Add(new ArticleReturn() { Id = x.Id, author_id = x.author_id,  title = x.title, uploaded_date = x.uploaded_date, url = x.url });
             }
             return lar;
         
@@ -114,6 +116,5 @@ namespace SoaProject.Controllers
             // Return the hexadecimal string.
             return sBuilder.ToString();
         }
-        
     }
 }
