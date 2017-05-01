@@ -11,47 +11,45 @@ namespace SoaProject.Controllers
     public class LoginController : ApiController
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-        /*
-                [Route("Login")]
-                [HttpPost]
-                public int login([FromBody]LoginMaster l)
-                {
-                    string value1;
-                    try
-                    {
-                        var usr = (from b in dc.GetTable<AuthorMaster>()
-                                 where b.mail == l.mail
-                                 select b).SingleOrDefault();
 
-                        var nce = (from a in dc.GetTable<RanNum>()
-                                     where a.mail == l.mail
-                                     select a).SingleOrDefault();
-                        using (MD5 md5Hash = MD5.Create())
-                        {
-                            value1 = GetMd5Hash(md5Hash, usr.pass + nce.nonce.ToString());
-
-                        }
-                        if (value1 == l.pass)
-                            {
-                                return usr.Id;
-                            }
-                            else
-                            {
-                                return -1;
-                            }
-                    }
-                    catch (Exception e)
-                    {
-                       throw e;
-                    }
-                }
-          */
-
-        [Route("Article/Login")]
-        [HttpGet]
-        public int Getloginonly([FromUri]LoginMaster l)
+        [Route("Login")]
+        [HttpPost]
+        public int login([FromBody]LoginMaster l)
         {
-
+            string value1;
+            try
+            {
+                var usr = (from b in dc.GetTable<AuthorMaster>()
+                         where b.mail == l.mail
+                         select b).SingleOrDefault();
+                
+                var nce = (from a in dc.GetTable<RanNum>()
+                             where a.mail == l.mail
+                             select a).SingleOrDefault();
+                using (MD5 md5Hash = MD5.Create())
+                {
+                    value1 = GetMd5Hash(md5Hash, usr.pass + nce.nonce.ToString());
+                   
+                }
+                if (value1 == l.pass)
+                    {
+                        return usr.Id;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        [Route("Article/Login")]
+        [HttpPost]
+        public int loginonly([FromBody]LoginMaster l)
+        {
+            
             try
             {
                 var usr = (from b in dc.GetTable<AuthorMaster>()
@@ -73,36 +71,36 @@ namespace SoaProject.Controllers
                 throw e;
             }
         }
-        /*       [Route("GetNonce")]
-               [HttpGet]
-               public int GetNonce(string remail)
-               {
-                   try
-                   {
-                       var q = (from a in dc.GetTable<AuthorMaster>()
-                                where a.mail == remail
-                                select a).SingleOrDefault();
-                       if(q != null)
-                       {
-                           Random rnd = new Random();
-                           int num = rnd.Next(1000, 1000000);
-                           RanNum rn = new RanNum()
-                           {
-                               mail = remail,
-                               nonce = num
-                           };
-                           dc.RanNums.InsertOnSubmit(rn);
-                           dc.SubmitChanges();
-                           return num;    
-                       }
-                       return -1;
-                   }
-                   catch(Exception e)
-                   {
-                       throw e;
-                   }
-               }
-          */
+
+        [Route("GetNonce")]
+        [HttpGet]
+        public int GetNonce(string remail)
+        {
+            try
+            {
+                var q = (from a in dc.GetTable<AuthorMaster>()
+                         where a.mail == remail
+                         select a).SingleOrDefault();
+                if(q != null)
+                {
+                    Random rnd = new Random();
+                    int num = rnd.Next(1000, 1000000);
+                    RanNum rn = new RanNum()
+                    {
+                        mail = remail,
+                        nonce = num
+                    };
+                    dc.RanNums.InsertOnSubmit(rn);
+                    dc.SubmitChanges();
+                    return num;    
+                }
+                return -1;
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+        }
         static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
