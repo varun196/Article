@@ -11,41 +11,43 @@ namespace SoaProject.Controllers
     public class LoginController : ApiController
     {
         article007DataContext dc = new article007DataContext("Server=tcp:article007.database.windows.net,1433;Initial Catalog=article007;Persist Security Info=False;User ID=article007;Password=article_007;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-/*
-        [Route("Login")]
-        [HttpPost]
-        public int login([FromBody]LoginMaster l)
-        {
-            string value1;
-            try
-            {
-                var usr = (from b in dc.GetTable<AuthorMaster>()
-                         where b.mail == l.mail
-                         select b).SingleOrDefault();
-                
-                var nce = (from a in dc.GetTable<RanNum>()
-                             where a.mail == l.mail
-                             select a).SingleOrDefault();
-                using (MD5 md5Hash = MD5.Create())
+        /*
+                [Route("Login")]
+                [HttpPost]
+                public int login([FromBody]LoginMaster l)
                 {
-                    value1 = GetMd5Hash(md5Hash, usr.pass + nce.nonce.ToString());
-                   
+                    string value1;
+                    try
+                    {
+                        var usr = (from b in dc.GetTable<AuthorMaster>()
+                                 where b.mail == l.mail
+                                 select b).SingleOrDefault();
+
+                        var nce = (from a in dc.GetTable<RanNum>()
+                                     where a.mail == l.mail
+                                     select a).SingleOrDefault();
+                        using (MD5 md5Hash = MD5.Create())
+                        {
+                            value1 = GetMd5Hash(md5Hash, usr.pass + nce.nonce.ToString());
+
+                        }
+                        if (value1 == l.pass)
+                            {
+                                return usr.Id;
+                            }
+                            else
+                            {
+                                return -1;
+                            }
+                    }
+                    catch (Exception e)
+                    {
+                       throw e;
+                    }
                 }
-                if (value1 == l.pass)
-                    {
-                        return usr.Id;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
-            }
-            catch (Exception e)
-            {
-               throw e;
-            }
-        }
-  */      [Route("Article/Login")]
+          */
+
+        [Route("Article/Login")]
         [HttpGet]
         public int Getloginonly([FromUri]LoginMaster l)
         {

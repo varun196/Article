@@ -90,6 +90,7 @@ namespace SoaProject.Controllers
             return lar;
         
         }
+
         [Route("GetAllArticles")]
         public Object GetAllArticles()
         {
